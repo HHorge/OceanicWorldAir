@@ -4,11 +4,13 @@ namespace OceanicWorldAirService.Models
 {
     public class Connection
     {
+        public int Id { get; set; }
+
         public Node StartNode { get; set; } = default!;
 
         public Node ConnectedNode { get; set; } = default!;
 
-        public int TransportationMethod { get; set; }
+        public Company Company { get; set; }
 
 
         /// This method should be covered in the one of the Service for example <see cref="RouteFindingService"/>
@@ -16,15 +18,15 @@ namespace OceanicWorldAirService.Models
         {
 
             int cost = 0;
-            if (TransportationMethod == 0) //plane
+            if (Company == Company.OceanicAirlines) //plane
             {
                 //call caluclate plane cost
             }
-            else if (TransportationMethod == 0) //car
+            else if (Company == Company.TelestarLogistics) //car
             {
                 //call calculate car api
             }
-            else if (TransportationMethod == 0) //boat
+            else if (Company == Company.EastIndiaTrading) //boat
             {
                 //call calculate boat api
             }

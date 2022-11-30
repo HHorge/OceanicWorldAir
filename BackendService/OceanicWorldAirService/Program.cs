@@ -1,4 +1,6 @@
+using OceanicWorldAirService.Helpers;
 using OceanicWorldAirService.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
+
+RegisterDbContext(builder);
 
 var app = builder.Build();
 
@@ -27,3 +31,22 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void RegisterDbContext(WebApplicationBuilder builder)
+{
+    // Database ConnectionString Options
+    builder.Services.Configure<ConnectionStringOptions>(builder.Configuration.GetSection(ConnectionStringOptions.ConnectionStrings));
+    var connectionStringOptions = new ConnectionStringOptions();
+    builder.Configuration.GetSection(ConnectionStringOptions.ConnectionStrings).Bind(connectionStringOptions);
+
+    // To be implemented - Db connection
+    //
+    //var connectionString = connectionStringOptions.ServiceDatabase;
+    //var serverVersion = ServerVersion.AutoDetect(connectionString);
+    //builder.Services.AddDbContext<FinanceServiceContext>(
+    //    dbContextOptions => dbContextOptions
+    //        .UseMySql(connectionString, serverVersion)
+    //        .LogTo(Console.WriteLine, LogLevel.Information) // The following three options help with debugging
+    //        .EnableSensitiveDataLogging()
+    //        .EnableDetailedErrors());
+}
