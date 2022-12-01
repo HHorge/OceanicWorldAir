@@ -2,7 +2,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { Icons } from '../icons/iconsEnum'
+import { Icons } from '../constants/iconsEnum'
 
 import '../styles/form.css'
 
@@ -52,7 +52,7 @@ const FormComponent = (props) => {
             <div className="button-row">
                 <div>
                     <img className="icon" src={Icons.Packages}></img>
-                    <span>:{addedPackages}</span>
+                    <span>: {addedPackages.length}</span>
                 </div>
                 <Button type="submit">Submit form</Button>
             </div>
