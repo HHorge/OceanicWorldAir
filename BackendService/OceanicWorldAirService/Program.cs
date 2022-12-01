@@ -21,7 +21,7 @@ builder.Services.ConfigureSwaggerGen(setup =>
 });
 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
-builder.Services.AddDbContext<DatabaseContext>();
+RegisterFinanceDbContext(builder);
 
 var app = builder.Build();
 
@@ -40,3 +40,14 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void RegisterFinanceDbContext(WebApplicationBuilder builder)
+{
+    // Finance Db ConnectionString Options
+    builder.Services.Configure<ConnectionStringOptions>(builder.Configuration.GetSection(ConnectionStringOptions.ConnectionStrings));
+    var connectionStringOptions = new ConnectionStringOptions();
+    builder.Configuration.GetSection(ConnectionStringOptions.ConnectionStrings).Bind(connectionStringOptions);
+
+    var connectionString = connectionStringOptions.ServiceDatabase;
+    builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
+}
