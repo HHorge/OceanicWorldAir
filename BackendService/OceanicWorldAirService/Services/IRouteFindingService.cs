@@ -11,7 +11,7 @@ namespace OceanicWorldAirService.Services
         /// <summary>
         /// Method for retrieving the calculated Routes.
         /// </summary>
-        public Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity);
-        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity);
+        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId);
+        public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId);
     }
 }

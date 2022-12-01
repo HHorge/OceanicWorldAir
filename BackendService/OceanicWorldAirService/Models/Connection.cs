@@ -12,6 +12,8 @@ namespace OceanicWorldAirService.Models
 
         public Company Company { get; set; }
 
+        public Costs Costs { get; set; }
+
 
         public Connection(Node start, Node end, Company comp)
         {
@@ -22,8 +24,6 @@ namespace OceanicWorldAirService.Models
         /// This method should be covered in the one of the Service for example <see cref="RouteFindingService"/>
         public Costs Cost(List<Parcel> parcels)
         {
-            Costs costs = new Costs();
-
             if (Company == Company.OceanicAirlines) //plane
             {
                 double totalPrice = 0;
@@ -50,20 +50,25 @@ namespace OceanicWorldAirService.Models
                     totalPrice += price;
                 }
 
-
-                costs.Price = string.Format("{0:N2}%", totalPrice);
-                costs.Time = 8;
+                Costs = new Costs()
+                {
+                    Price = string.Format("{0:N2}", totalPrice),
+                    Time = 8
+                };
+                
             }
             else if (Company == Company.TelestarLogistics) //car
             {
+                //TODO: set Costs
                 //call calculate car api
             }
             else if (Company == Company.EastIndiaTrading) //boat
             {
+                //TODO: set Costs
                 //call calculate boat api
             }
 
-            return costs;
+            return Costs;
         }
         private double GetDefaulCostOfParcel(Parcel parcel)
         {

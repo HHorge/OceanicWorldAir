@@ -23,16 +23,10 @@ namespace OceanicWorldAirService.Controllers
             _routeFindingService = routeFindingService;
         }
 
-        [HttpGet(Name = "FindRoute")]
-        public async Task<ActionResult<IEnumerable<RouteModel>>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
+        [HttpPost(Name = "FindRoute")]
+        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
         {
-            // TODO: Change the return type to IEnumerable<model with retun body like nodes, total price, total time>
-            var result = await _routeFindingService.FindRoutes(parcelList, startCity, destinationCity);
-
-            return Ok(result);
+            return _routeFindingService.FindRoutes(parcelList, startCityId, destinationCityId);
         }
-
-
-
     }
 }
