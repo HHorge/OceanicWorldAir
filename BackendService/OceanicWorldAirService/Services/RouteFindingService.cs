@@ -367,6 +367,38 @@ namespace OceanicWorldAirService.Services
             CapeTown.Connections.Add(new Connection(CapeTown, CapeStMarie, Company.OceanicAirlines));
 
             // add all nodes to world map
+            map.Add(Sahara);
+            map.Add(Timbuktu);
+            map.Add(CanaryIslands);
+            map.Add(Morocco);
+            map.Add(CapeVerde);
+            map.Add(SierraLeone);
+            map.Add(GoldCoast);
+            map.Add(SlaveCoast);
+            map.Add(StHelena);
+            map.Add(Congo);
+            map.Add(WhalefishBay);
+            map.Add(Kandjama);
+            map.Add(AinGalaka);
+            map.Add(Tripoli);
+            map.Add(Egypt);
+            map.Add(Darfur);
+            map.Add(BahrElGhasal);
+            map.Add(Ocomba);
+            map.Add(VictoriaFalls);
+            map.Add(DragonMountain);
+            map.Add(Tunis);
+            map.Add(LakeVictoria);
+            map.Add(Suakin);
+            map.Add(AddisAbeba);
+            map.Add(CapeGuardafui);
+            map.Add(Tamatave);
+            map.Add(CapeStMarie);
+            map.Add(Mozambique);
+            map.Add(CapeTown);
+            map.Add(Daressalam);
+            map.Add(Tangier);
+            map.Add(Cairo);
 
             return map;
         }
