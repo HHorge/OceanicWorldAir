@@ -1,11 +1,13 @@
-import { config } from '../config';
-import {PublicClientApplication} from '@azure/msal-browser'
+import { msalConfig } from '../constants/authConfig';
+import { PublicClientApplication } from '@azure/msal-browser'
+import Button from 'react-bootstrap/Button'
+
 import React from 'react';
 
-class loginMethod extends React.Component {
-    constructor(props){
+class LoginMethod extends React.Component {
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             error: null,
             isAuthenticated: false,
             user: {}
@@ -15,8 +17,8 @@ class loginMethod extends React.Component {
 
         this.publicClientApplication = new PublicClientApplication({
             auth: {
-                clientId: config.appId,
-                redirectUri: config.redirectUri
+                clientId: msalConfig.appId,
+                redirectUri: msalConfig.redirectUri
             },
             cache: {
                 cacheLocation: "sessionStorage",
@@ -26,19 +28,20 @@ class loginMethod extends React.Component {
 
     }
 
-    async login(){
-        try{
+    async login() {
+        try {
             await this.publicClientApplication.loginPopup(
                 {
-                    scopes: config.scopes,
+                    scopes: msalConfig.scopes,
                     prompt: "select_account"
                 }
             );
-            this.state.isAuthenticated=true
-            console.log("signed in success")
+           
+                this.props.setLoggedIn(true)
+                console.log("signed in success")
 
         }
-        catch(err){
+        catch (err) {
             this.setState({
                 isAuthenticated: false,
                 user: {},
@@ -48,9 +51,18 @@ class loginMethod extends React.Component {
 
     };
 
-    async logout(){
+    async logout() {
         this.publicClientApplication.logoutPopup();
     };
+
+    render() {
+        return(
+            <Button onClick={() => {this.login()}}>
+                Log in
+            </Button>
+        )
+    }
+
 }
 
-export default loginMethod;
+export default LoginMethod;
