@@ -56,9 +56,9 @@ namespace OceanicWorldAirService.Services
 
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, Parcel parcel)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList)
         {
-            DijkstraSearch(start, end, parcel);
+            DijkstraSearch(start, end, parcelList, 1);
             var shortestPath = new List<Connection>();
             shortestPath.Add(end.NearestConnectionToStart);
             BuildShortestPath(shortestPath, end);
@@ -81,7 +81,7 @@ namespace OceanicWorldAirService.Services
             BuildShortestPath(list, node.NearestToStart);
         }
 
-        private void DijkstraSearch(Node start, Node end, Parcel parcel)
+        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType)
         {
             start.MinCostToStart = 0;
             var prioQueue = new List<Node>();
@@ -96,7 +96,22 @@ namespace OceanicWorldAirService.Services
                     var childNode = cnn.ConnectedNode;
                     if (childNode.Visited)
                         continue;
-                    int connectionCost = cnn.Cost(parcel);
+
+                    float connectionCost;
+
+                    if (searchType == 0) //Cheapest Route
+                    {
+                        connectionCost = float.Parse(cnn.Cost(parcels).Price);
+                    }
+                    else if (searchType == 1) //Fastest Route
+                    {
+                        connectionCost = cnn.Cost(parcels).Time;
+                    }
+                    else //Weighted Route
+                    {
+                        connectionCost = (cnn.Cost(parcels).Time) / float.Parse(cnn.Cost(parcels).Price);
+                    }
+
                     if (childNode.MinCostToStart == null ||
                         node.MinCostToStart + connectionCost < childNode.MinCostToStart)
                     {
