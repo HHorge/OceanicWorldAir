@@ -20,6 +20,10 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Version = "v1"
     });
 });
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
+);
 
 // Register Services 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
@@ -30,6 +34,7 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 RegisterFinanceDbContext(builder);
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
