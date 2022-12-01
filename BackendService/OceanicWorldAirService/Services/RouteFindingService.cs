@@ -1,4 +1,6 @@
-﻿namespace OceanicWorldAirService.Services
+﻿using RouteModel = OceanicWorldAirService.Models.Route;
+
+namespace OceanicWorldAirService.Services
 {
     /// <summary>
     /// Implementation of RouteFindingService.
@@ -12,11 +14,12 @@
         {
         }
 
-        public Task<IEnumerable<int>> FindRoutes()
+        public async Task<IEnumerable<RouteModel>> FindRoutes()
         {
-
-
-            throw new NotImplementedException();
+            return new List<RouteModel>()
+            {
+                new RouteModel(),
+            };
         }
         public List<Node> GetShortestPathDijkstra(Node start, Node end)
         {

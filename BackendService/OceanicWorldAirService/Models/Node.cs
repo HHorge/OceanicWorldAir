@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OceanicWorldAirService.Models
+﻿namespace OceanicWorldAirService.Models
 {
     public class Node
     {
+        public int Id { get; set; }
 
-        public string name;
-        public List<Connection> Connections;
-        public int? MinCostToStart;
-        public Node NearestToStart;
-        public bool Visited;
+        public string Name { get; set; } = string.Empty;
 
+        public ICollection<Connection> Connections { get; set; } = new List<Connection>();
+
+        public int? MinCostToStart { get; set; }
+
+        public Node NearestToStart { get; set; } = default!;
+
+        public bool Visited { get; set; }
     }
 
 }
