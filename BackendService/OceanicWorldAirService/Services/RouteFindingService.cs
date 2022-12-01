@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 ﻿using RouteModel = OceanicWorldAirService.Models.Route;
 using OceanicWorldAirService.Models;
 using System.Collections.Immutable;
 using Microsoft.Extensions.Hosting;
-=======
-﻿using OceanicWorldAirService.Models;
-using RouteModel = OceanicWorldAirService.Models.Route;
->>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
+
 
 namespace OceanicWorldAirService.Services
 {
@@ -33,9 +29,6 @@ namespace OceanicWorldAirService.Services
             throw new NotImplementedException();
         }
 
-<<<<<<< HEAD
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, Parcel parcel)
-=======
         public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
         {
             if (!DoesItFly(parcelList, startCity, destinationCity))
@@ -63,8 +56,7 @@ namespace OceanicWorldAirService.Services
 
         }
 
-        public List<Node> GetShortestPathDijkstra(Node start, Node end)
->>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, Parcel parcel)
         {
             DijkstraSearch(start, end, parcel);
             var shortestPath = new List<Connection>();
@@ -120,7 +112,6 @@ namespace OceanicWorldAirService.Services
                     return;
             } while (prioQueue.Any());
         }
-<<<<<<< HEAD
 
         public List<Node> GenerateAfricaMap()
         {
@@ -335,7 +326,6 @@ namespace OceanicWorldAirService.Services
             return map;
         }
 
-=======
->>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
+
     }
 }
