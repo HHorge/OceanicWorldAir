@@ -15,8 +15,13 @@ namespace OceanicWorldAirService.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="RouteFindingService"/> class.
         /// </summary>
-        public RouteFindingService()
+        ///
+        
+        private readonly ICostCalculationService _costCalculationService;
+
+        public RouteFindingService(ICostCalculationService costCalculationService)
         {
+            _costCalculationService = costCalculationService;
         }
 
         public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
@@ -131,7 +136,7 @@ namespace OceanicWorldAirService.Services
                         continue;
 
                     float connectionCost;
-                    Costs costObj = cnn.Cost(parcels);
+                    Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn);
 
                     if (costObj == null || costObj.Price == null)
                     {
