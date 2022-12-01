@@ -94,7 +94,7 @@ namespace OceanicWorldAirService.Services
         {
             DijkstraSearch(start, end, parcelList, 1);
             var shortestPath = new List<Connection>();
-            shortestPath.Add(end.NearestConnectionToStart);
+            //shortestPath.Add(end.NearestConnectionToStart);
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse(); // whatever if you want the correct order
 
