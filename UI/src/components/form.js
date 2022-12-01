@@ -21,9 +21,9 @@ const FormComponent = (props) => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-      { name: 'Active', value: '1' },
-      { name: 'Radio', value: '2' },
-      { name: 'Radio', value: '3' },
+      { id: '1', checked: false },
+      { id: '2', checked: false },
+      { id: '3', checked: false },
     ];
 
     const handleAddPackage = () => {
