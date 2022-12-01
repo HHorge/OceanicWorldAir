@@ -18,26 +18,39 @@ namespace OceanicWorldAirService.Services
         {
         }
 
-        public async Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
+        public IEnumerable<RouteModel> FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
         {
-            if(!DoesItFly(parcelList, startCity, destinationCity))
+            if(!IsParcelSupported(parcelList))
             {
                 //Error: your package will not fly    
             }
 
-            //TODO: Call Algorithm (GetShortestPathDijkstra)
+            //GetShortestPathDijkstra(start, end, parcelList).Connections.Count();
             throw new NotImplementedException();
         }
 
-        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
+        public Costs FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
         {
             if (!IsParcelSupported(parcelList))
             {
                 //Error: Your package will not fly
             }
 
-            throw new NotImplementedException();
-            //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
+            //foreach (Node cityNode in nodeList)
+            //{
+            //    if (cityNode.Name == startCity)
+            //    {
+
+            //    }
+            //}
+
+
+           //List<Connection> connectionList = GetShortestPathDijkstra(startCity, destinationCity, parcelList).Connections;
+
+            return new Costs()
+            {
+                
+            };
         }
 
         private bool IsParcelSupported(List<Parcel> parcelList)
