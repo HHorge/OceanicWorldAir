@@ -23,6 +23,7 @@ namespace OceanicWorldAirService.Services
             }
 
             //TODO: Call Algorithm (GetShortestPathDijkstra)
+            throw new NotImplementedException();
         }
 
         public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
@@ -32,6 +33,7 @@ namespace OceanicWorldAirService.Services
                 //Error: Your package will not fly
             }
 
+            throw new NotImplementedException();
             //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
         }
 
@@ -61,6 +63,9 @@ namespace OceanicWorldAirService.Services
                     //extra price +10%
                 }
             }
+
+            throw new NotImplementedException();
+
         }
 
         public List<Node> GetShortestPathDijkstra(Node start, Node end)
