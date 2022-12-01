@@ -2,6 +2,7 @@ using OceanicWorldAirService.Helpers;
 using OceanicWorldAirService.Services;
 using Microsoft.EntityFrameworkCore;
 using OceanicWorldAirService.Context;
+using OceanicWorldAirService.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,12 @@ builder.Services.ConfigureSwaggerGen(setup =>
     });
 });
 
+// Register Services 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
 builder.Services.AddScoped<IShippingHttpRequester, ShippingHttpRequester>();
 builder.Services.AddScoped<ICostCalculationService, CostCalculationService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 RegisterFinanceDbContext(builder);
 
 var app = builder.Build();

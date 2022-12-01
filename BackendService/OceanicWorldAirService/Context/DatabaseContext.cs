@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OceanicWorldAirService.Models;
-using RouteModel = OceanicWorldAirService.Models.Route;
+using OceanicWorldAirService.Context.DbModels;
 
 namespace OceanicWorldAirService.Context
 {
@@ -10,6 +9,16 @@ namespace OceanicWorldAirService.Context
         {
 
         }
+
+        /// <summary>
+        /// DbSet for <see cref="Booking"/>.
+        /// </summary>
+        public DbSet<Booking> Bookings { get; set; } = null!;
+        
+        /// <summary>
+        /// DbSet for <see cref="Customer"/>.
+        /// </summary>
+        public DbSet<Customer> Customers { get; set; } = null!;
 
         ///// <summary>
         ///// DbSet for <see cref="Booking"/>.

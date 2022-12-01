@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OceanicWorldAirService", "OceanicWorldAirService\OceanicWorldAirService.csproj", "{2EDA0320-67BD-4441-8671-7AFDC3B363AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OceanicWorldAirService", "OceanicWorldAirService\OceanicWorldAirService.csproj", "{2EDA0320-67BD-4441-8671-7AFDC3B363AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{549D774B-4000-4A0E-8EE4-5CCB33CC147E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2EDA0320-67BD-4441-8671-7AFDC3B363AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EDA0320-67BD-4441-8671-7AFDC3B363AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EDA0320-67BD-4441-8671-7AFDC3B363AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549D774B-4000-4A0E-8EE4-5CCB33CC147E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549D774B-4000-4A0E-8EE4-5CCB33CC147E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549D774B-4000-4A0E-8EE4-5CCB33CC147E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549D774B-4000-4A0E-8EE4-5CCB33CC147E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
