@@ -24,11 +24,25 @@ namespace OceanicWorldAirService.Services
             _costCalculationService = costCalculationService;
         }
 
-        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public RouteModel FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
         {
-            foreach (Parcel parcel in parcelList)
+            List<Parcel> parcelList = new List<Parcel>();
+
+            foreach (ParcelDto parcelDto in parcels)
             {
-                parcel.Id = Guid.NewGuid();
+                Parcel parcel = new Parcel()
+                {
+                    Id = Guid.NewGuid(),
+                    Weigth = parcelDto.Weigth,
+                    Dimensions = (parcelDto.Depth, parcelDto.Height, parcelDto.Weigth),
+                    RecordedDelivery = parcelDto.RecordedDelivery,
+                    Weapons = parcelDto.Weapons,
+                    LiveAnimals = parcelDto.LiveAnimals,
+                    CautiousParcels = parcelDto.CautiousParcels,
+                    RefrigeratedGoods = parcelDto.RefrigeratedGoods
+                };
+
+                parcelList.Add(parcel);
             }
 
             if(!IsParcelSupported(parcelList))

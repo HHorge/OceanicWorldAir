@@ -24,13 +24,13 @@ namespace OceanicWorldAirService.Controllers
         }
 
         [HttpPost("FindRoute")]
-        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public RouteModel FindRoutes(List<ParcelDto> parcelList, int startCityId, int destinationCityId)
         {
             return _routeFindingService.FindRoutes(parcelList, startCityId, destinationCityId);
         }
 
         [HttpPost("FindMockRoute")]
-        public Costs FindMockRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public Costs FindMockRoutes(List<ParcelDto> parcelList, int startCityId, int destinationCityId)
         {
             return new Costs() {Price = "20", Time = 21};
         }
