@@ -24,7 +24,7 @@ namespace OceanicWorldAirService.Services
             _costCalculationService = costCalculationService;
         }
 
-        public RouteModel FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
+        public BookingResponse FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
         {
             List<Parcel> parcelList = new List<Parcel>();
 
@@ -55,9 +55,32 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-            //MailService.SendMail("bach97@live.dk");
+            RouteModel route = GetShortestPathDijkstra(startNode, endNode, parcelList, false);
 
-            return GetShortestPathDijkstra(startNode, endNode, parcelList, false);
+            float routePrice = 0;
+            float routeTimeEstimat = 0;
+
+            foreach (Connection connection in route.Connections.ToList())
+            {
+                if (connection.Costs.Price != null)
+                {
+                    routePrice += float.Parse(connection.Costs.Price);
+                }
+
+                routeTimeEstimat += connection.Costs.Time;
+            }
+
+            BookingResponse booking = new BookingResponse()
+            {
+                Id = Guid.NewGuid(),
+                StartDestination = startNode.Name,
+                EndDestination = endNode.Name,
+                Price = string.Format("{0:N2}", routePrice),
+                Time = routeTimeEstimat,
+                Parcels = parcelList
+            };
+
+            return booking;
         }
 
         public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId)
