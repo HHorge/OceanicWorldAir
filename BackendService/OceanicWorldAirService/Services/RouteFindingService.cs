@@ -36,7 +36,9 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-           return GetShortestPathDijkstra(startNode, endNode, parcelList);
+            //MailService.SendMail("bach97@live.dk");
+
+            return GetShortestPathDijkstra(startNode, endNode, parcelList);
         }
 
         public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId)
