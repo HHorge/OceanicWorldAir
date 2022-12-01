@@ -23,7 +23,7 @@ namespace OceanicWorldAirService.Controllers
             _routeFindingService = routeFindingService;
         }
 
-        [HttpGet(Name = "FindCost")]
+        [HttpGet(Name = "FindRoute")]
         public async Task<ActionResult<Costs>> FindCosts(List<Parcel> parcelList, string startCity, string destinationCity)
         {
             var result = await _routeFindingService.FindCostForExternals(parcelList, startCity, destinationCity);

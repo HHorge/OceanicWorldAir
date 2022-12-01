@@ -14,7 +14,7 @@ namespace OceanicWorldAirService.Models
 
 
         /// This method should be covered in the one of the Service for example <see cref="RouteFindingService"/>
-        public int Cost(List<Parcel> parcels)
+        public int Cost()
         {
             int cost = 0;
             if (Company == Company.OceanicAirlines) //plane
