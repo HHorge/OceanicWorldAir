@@ -8,7 +8,7 @@
 
         public ICollection<Connection> Connections { get; set; } = new List<Connection>();
 
-        public int? MinCostToStart { get; set; }
+        public float? MinCostToStart { get; set; }
 
         public Connection NearestConnectionToStart { get; set; } = default!;
         public Node? NearestToStart { get; set; }

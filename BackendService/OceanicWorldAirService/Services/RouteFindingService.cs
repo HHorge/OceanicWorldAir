@@ -31,7 +31,7 @@ namespace OceanicWorldAirService.Services
 
         public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            if (!DoesItFly(parcelList, startCity, destinationCity))
+            if (!IsParcelSupported(parcelList))
             {
                 //Error: Your package will not fly
             }
@@ -40,25 +40,23 @@ namespace OceanicWorldAirService.Services
             //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
         }
 
-        private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
+        private bool IsParcelSupported(List<Parcel> parcelList)
         {
             foreach (Parcel parcel in parcelList)
             {
-                if (parcel.RecordedDelivery || parcel.LiveAnimals)
+                if (parcel.RecordedDelivery || parcel.LiveAnimals || parcel.Weigth > 20 || 
+                    parcel.Dimensions.width > 200 || parcel.Dimensions.height > 200 || parcel.Dimensions.depth > 200)
                 {
                     return false;
                 }
-
-                return true;
             }
 
-            throw new NotImplementedException();
-
+            return true;
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, Parcel parcel)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList)
         {
-            DijkstraSearch(start, end, parcel);
+            DijkstraSearch(start, end, parcelList, 1);
             var shortestPath = new List<Connection>();
             shortestPath.Add(end.NearestConnectionToStart);
             BuildShortestPath(shortestPath, end);
@@ -81,7 +79,7 @@ namespace OceanicWorldAirService.Services
             BuildShortestPath(list, node.NearestToStart);
         }
 
-        private void DijkstraSearch(Node start, Node end, Parcel parcel)
+        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType)
         {
             start.MinCostToStart = 0;
             var prioQueue = new List<Node>();
@@ -96,7 +94,22 @@ namespace OceanicWorldAirService.Services
                     var childNode = cnn.ConnectedNode;
                     if (childNode.Visited)
                         continue;
-                    int connectionCost = cnn.Cost(parcel);
+
+                    float connectionCost;
+
+                    if (searchType == 0) //Cheapest Route
+                    {
+                        connectionCost = float.Parse(cnn.Cost(parcels).Price);
+                    }
+                    else if (searchType == 1) //Fastest Route
+                    {
+                        connectionCost = cnn.Cost(parcels).Time;
+                    }
+                    else //Weighted Route
+                    {
+                        connectionCost = (cnn.Cost(parcels).Time) / float.Parse(cnn.Cost(parcels).Price);
+                    }
+
                     if (childNode.MinCostToStart == null ||
                         node.MinCostToStart + connectionCost < childNode.MinCostToStart)
                     {
