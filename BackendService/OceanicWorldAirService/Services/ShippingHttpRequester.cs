@@ -30,7 +30,7 @@ namespace OceanicWorldAirService.Services
 
             var options = new JsonSerializerOptions()
             {
-                PropertyNameCaseInsensitive = true,              
+                PropertyNameCaseInsensitive = true,
             };
 
             Costs costs = JsonSerializer.Deserialize<Costs>(responseString, options);
