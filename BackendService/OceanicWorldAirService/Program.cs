@@ -19,11 +19,16 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Version = "v1"
     });
 });
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
+);
 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
 RegisterFinanceDbContext(builder);
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
