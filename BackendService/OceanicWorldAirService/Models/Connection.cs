@@ -14,13 +14,27 @@ namespace OceanicWorldAirService.Models
 
 
         /// This method should be covered in the one of the Service for example <see cref="RouteFindingService"/>
-        public int Cost()
+        public int Cost(List<Parcel> parcels)
         {
-
             int cost = 0;
             if (Company == Company.OceanicAirlines) //plane
             {
-                //call caluclate plane cost
+                foreach (Parcel parcel in parcels)
+                {
+                    if (parcel.Weapons)
+                    {
+                        //extra price +100%
+                        if (parcel.CautiousParcels)
+                        {
+                            //extra price +75%
+                        }
+
+                        if (parcel.RefrigeratedGoods)
+                        {
+                            //extra price +10%
+                        }
+                    }
+                }
             }
             else if (Company == Company.TelestarLogistics) //car
             {

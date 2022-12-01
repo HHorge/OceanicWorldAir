@@ -37,29 +37,14 @@ namespace OceanicWorldAirService.Services
 
         private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            //TODO: Do our checks
             foreach (Parcel parcel in parcelList)
             {
-                if (parcel.RecordedDelivery)
+                if (parcel.RecordedDelivery || parcel.LiveAnimals)
                 {
-                    //return error (not supported)
+                    return false;
                 }
-                if (parcel.Weapons)
-                {
-                    //extra price +100%
-                }
-                if (parcel.LiveAnimals)
-                {
-                    //return error (not supported)
-                }
-                if (parcel.CautiousParcels)
-                {
-                    //extra price +75%
-                }
-                if (parcel.RefrigeratedGoods)
-                {
-                    //extra price +10%
-                }
+
+                return true;
             }
         }
 
