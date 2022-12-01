@@ -109,18 +109,25 @@ namespace OceanicWorldAirService.Services
                         continue;
 
                     float connectionCost;
-
+                    var costObj = cnn.Cost(parcels);
                     if (searchType == 0) //Cheapest Route
                     {
-                        connectionCost = float.Parse(cnn.Cost(parcels).Price);
+                        connectionCost = float.Parse(costObj.Price);
                     }
                     else if (searchType == 1) //Fastest Route
                     {
-                        connectionCost = cnn.Cost(parcels).Time;
+                        connectionCost = costObj.Time;
                     }
                     else //Weighted Route
                     {
-                        connectionCost = (cnn.Cost(parcels).Time) / float.Parse(cnn.Cost(parcels).Price);
+                        if (costObj.Price != null)
+                        {
+                            connectionCost = (costObj.Time) / float.Parse(costObj.Price);
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     if (childNode.MinCostToStart == null ||
@@ -347,7 +354,64 @@ namespace OceanicWorldAirService.Services
             VictoriaFalls.Connections.Add(new Connection(VictoriaFalls, Mozambique, Company.TelestarLogistics));
             VictoriaFalls.Connections.Add(new Connection(VictoriaFalls, Congo, Company.TelestarLogistics));
 
+            DragonMountain.Connections.Add(new Connection(DragonMountain, VictoriaFalls, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, Mozambique, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, Congo, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, CapeTown, Company.OceanicAirlines));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, LakeVictoria, Company.OceanicAirlines));
+
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeGuardafui, Company.OceanicAirlines));
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeGuardafui, Company.EastIndiaTrading));
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeTown, Company.OceanicAirlines));
+
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, Mozambique, Company.EastIndiaTrading));
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, CapeTown, Company.OceanicAirlines));
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, CapeTown, Company.EastIndiaTrading));
+
+            CapeTown.Connections.Add(new Connection(CapeTown, StHelena, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, CapeStMarie, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.TelestarLogistics));
+            CapeTown.Connections.Add(new Connection(CapeTown, StHelena, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, Ocomba, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, DragonMountain, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, Tamatave, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, CapeStMarie, Company.OceanicAirlines));
+
             // add all nodes to world map
+            map.Add(Sahara);
+            map.Add(Timbuktu);
+            map.Add(CanaryIslands);
+            map.Add(Morocco);
+            map.Add(CapeVerde);
+            map.Add(SierraLeone);
+            map.Add(GoldCoast);
+            map.Add(SlaveCoast);
+            map.Add(StHelena);
+            map.Add(Congo);
+            map.Add(WhalefishBay);
+            map.Add(Kandjama);
+            map.Add(AinGalaka);
+            map.Add(Tripoli);
+            map.Add(Egypt);
+            map.Add(Darfur);
+            map.Add(BahrElGhasal);
+            map.Add(Ocomba);
+            map.Add(VictoriaFalls);
+            map.Add(DragonMountain);
+            map.Add(Tunis);
+            map.Add(LakeVictoria);
+            map.Add(Suakin);
+            map.Add(AddisAbeba);
+            map.Add(CapeGuardafui);
+            map.Add(Tamatave);
+            map.Add(CapeStMarie);
+            map.Add(Mozambique);
+            map.Add(CapeTown);
+            map.Add(Daressalam);
+            map.Add(Tangier);
+            map.Add(Cairo);
 
             return map;
         }
