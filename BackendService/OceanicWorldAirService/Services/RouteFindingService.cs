@@ -31,7 +31,7 @@ namespace OceanicWorldAirService.Services
 
         public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            if (!DoesItFly(parcelList, startCity, destinationCity))
+            if (!IsParcelSupported(parcelList))
             {
                 //Error: Your package will not fly
             }
@@ -40,20 +40,18 @@ namespace OceanicWorldAirService.Services
             //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
         }
 
-        private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
+        private bool IsParcelSupported(List<Parcel> parcelList)
         {
             foreach (Parcel parcel in parcelList)
             {
-                if (parcel.RecordedDelivery || parcel.LiveAnimals)
+                if (parcel.RecordedDelivery || parcel.LiveAnimals || parcel.Weigth > 20 || 
+                    parcel.Dimensions.width > 200 || parcel.Dimensions.height > 200 || parcel.Dimensions.depth > 200)
                 {
                     return false;
                 }
-
-                return true;
             }
 
-            throw new NotImplementedException();
-
+            return true;
         }
 
         public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList)
