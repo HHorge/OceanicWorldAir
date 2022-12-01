@@ -96,18 +96,25 @@ namespace OceanicWorldAirService.Services
                         continue;
 
                     float connectionCost;
-
+                    var costObj = cnn.Cost(parcels);
                     if (searchType == 0) //Cheapest Route
                     {
-                        connectionCost = float.Parse(cnn.Cost(parcels).Price);
+                        connectionCost = float.Parse(costObj.Price);
                     }
                     else if (searchType == 1) //Fastest Route
                     {
-                        connectionCost = cnn.Cost(parcels).Time;
+                        connectionCost = costObj.Time;
                     }
                     else //Weighted Route
                     {
-                        connectionCost = (cnn.Cost(parcels).Time) / float.Parse(cnn.Cost(parcels).Price);
+                        if (costObj.Price != null)
+                        {
+                            connectionCost = (costObj.Time) / float.Parse(costObj.Price);
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     if (childNode.MinCostToStart == null ||
