@@ -10,9 +10,16 @@
 
         public int? MinCostToStart { get; set; }
 
-        public Node NearestToStart { get; set; } = default!;
+        public Connection NearestConnectionToStart { get; set; } = default!;
+        public Node? NearestToStart { get; set; }
 
         public bool Visited { get; set; }
+
+        public Node(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 
 }

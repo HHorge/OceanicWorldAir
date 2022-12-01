@@ -1,61 +1,62 @@
 import React from "react";
-import { Form } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-const FormComponent = () => {
+import { Icons } from '../constants/iconsEnum'
+
+import '../styles/form.css'
+
+const FormComponent = (props) => {
+    const { addedPackages, setAddedPackages } = props;
     return (
         <Form>
-            <div className="form-group row">
-                <label for="inputEmail3" className="col-sm-2 col-form-label">Email</label>
-                <div className="col-sm-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Email" />
+
+            <Form.Group className="mb-3 mt-3" controlId="formWeight">
+                <div className="custom-row">
+                    <img className="icon" src={Icons.Weight}></img>
+                    <Form.Control type="number" required placeholder="kg" />
+
                 </div>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formHeight">
+                <div className="custom-row">
+                    <img className="icon" src={Icons.Height}></img>
+                    <Form.Control type="number" required placeholder="cm" />
+
+                </div>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formWidth">
+                <div className="custom-row">
+                    <img className="icon" src={Icons.Width}></img>
+                    <Form.Control type="number" required placeholder="cm" />
+
+                </div>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formDepth">
+                <div className="custom-row">
+                    <img className="icon" src={Icons.Depth}></img>
+                    <Form.Control type="number" required placeholder="cm" />
+
+                </div>
+            </Form.Group>
+            <div className="custom-row">
+                <img className="icon" src={Icons.Type}></img>
+                <Form.Select aria-label="Default select example">
+                    <option>type</option>
+                    <option value="1">Animal</option>
+                    <option value="2">Guns</option>
+                    <option value="3">Drugs</option>
+                </Form.Select>
             </div>
-            <div className="form-group row">
-                <label for="inputPassword3" className="col-sm-2 col-form-label">Password</label>
-                <div className="col-sm-10">
-                    <input type="password" className="form-control" id="inputPassword3" placeholder="Password" />
+            <div className="button-row">
+                <div>
+                    <img className="icon" src={Icons.Packages}></img>
+                    <span>: {addedPackages.length}</span>
                 </div>
+                <Button type="submit">Submit form</Button>
             </div>
-            <fieldset className="form-group">
-                <div className="row">
-                    <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
-                    <div className="col-sm-10">
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
-                            <label className="form-check-label" for="gridRadios1">
-                                First radio
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-                            <label className="form-check-label" for="gridRadios2">
-                                Second radio
-                            </label>
-                        </div>
-                        <div className="form-check disabled">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled />
-                            <label className="form-check-label" for="gridRadios3">
-                                Third disabled radio
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <div className="form-group row">
-                <div className="col-sm-2">Checkbox</div>
-                <div className="col-sm-10">
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="gridCheck1" />
-                            <label className="form-check-label" for="gridCheck1">
-                                Example checkbox
-                            </label>
-                    </div>
-                </div>
-            </div>
-            <div className="form-group row">
-                <div className="col-sm-10">
-                    <button type="submit" className="btn btn-primary">Sign in</button>
-                </div>
+            <div className="Spacer" style={{ height: "50px" }}>
             </div>
         </Form>
     )

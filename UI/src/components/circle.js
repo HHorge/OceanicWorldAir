@@ -10,6 +10,7 @@ const Circle = (props) => {
     useEffect(() => {
         getColor()
     },[startCity, endCity])
+    
     const getColor = () => {
        if(startCity === id) setColor("green")
        else if(endCity === id) setColor("red")
