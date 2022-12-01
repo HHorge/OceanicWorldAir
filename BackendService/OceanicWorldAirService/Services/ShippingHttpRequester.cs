@@ -33,29 +33,6 @@ namespace OceanicWorldAirService.Services
                 PropertyNameCaseInsensitive = true,
             };
 
-            var apiRequest = new ApiRequestObject()
-            {
-                Parcels = new List<Parcel>()
-                {
-                    new Parcel()
-                    {
-                        Weigth = 5,
-                        Dimensions = (2, 3, 5),
-                        RecordedDelivery = true,
-                        LiveAnimals = false,
-                        Weapons = true,
-                        CautiousParcels = true,
-                        RefrigeratedGoods = false
-                    },
-                },
-                StartCityId = 5,
-                DestinationCityId = 6
-            };
-
-            var json = JsonSerializer.Serialize(request);
-
-
-
             Costs costs = JsonSerializer.Deserialize<Costs>(responseString, options);
 
             return costs;
