@@ -1,34 +1,33 @@
 import React from "react";
+import { useState } from "react";
 import Map from "./map";
 import Circle from "./circle";
+import FormComponent from "./form";
+import NavbarComponent from "./nav";
+
+import { CITIES } from "../constants/cities";
 
 import '../styles/main.css'
 
 const Main = () => {
-    document.addEventListener('click', printMousePos, true);
-    function printMousePos(e) {
 
-        let cursorX = e.pageX;
-        let cursorY = e.pageY;
-        
-        console.log("x: "+(cursorX-12)  + ", y: " + (cursorY-12));
-    }
+    const [startCity, setStartCity] = useState(null);
+    const [endCity, setEndCity] = useState(null);
+    const [addedPackages, setAddedPackages] = useState([])
 
-let d = 5;
+    const cityNodes = CITIES.map((e, i) => <Circle key={i} x={e.x} y={e.y} id={e.id} startCity={startCity} endCity={endCity} setStartCity={setStartCity} setEndCity={setEndCity}></Circle>)
 
-    let data = [
-        { city: "Morocco", x: 138, y: 151},
-        { city: "Morocco", x: 138, y: 151},
-        { city: "Morocco", x: 96, y: 198 },
-        
-    ]
-
-    const circles = data.map((e, i) => <Circle key={i} city={e.city} color="grey" x={e.x} y={e.y}></Circle>)
     return (
-        <div className="container">
-            <Map></Map>
-            {circles}
+        <>
+        <NavbarComponent />
+        <div className="content">
+            <div className="map-container">
+                <Map></Map>
+                {cityNodes}
+            </div>
+            <FormComponent addedPackages={addedPackages} setAddedPackages={setAddedPackages} />
         </div>
+        </>
     )
 }
 

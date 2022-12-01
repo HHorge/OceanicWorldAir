@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Map from './components/map'
 import Main from './components/main'
 import reportWebVitals from './reportWebVitals';
 

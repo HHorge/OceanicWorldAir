@@ -2,7 +2,7 @@
 {
     public class Parcel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } 
 
         public float Weigth { get; set; }
 

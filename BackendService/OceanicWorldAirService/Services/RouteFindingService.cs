@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 ﻿using RouteModel = OceanicWorldAirService.Models.Route;
 using OceanicWorldAirService.Models;
 using System.Collections.Immutable;
 using Microsoft.Extensions.Hosting;
+=======
+﻿using OceanicWorldAirService.Models;
+using RouteModel = OceanicWorldAirService.Models.Route;
+>>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
 
 namespace OceanicWorldAirService.Services
 {
@@ -17,15 +22,49 @@ namespace OceanicWorldAirService.Services
         {
         }
 
-        public async Task<IEnumerable<RouteModel>> FindRoutes()
+        public async Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            return new List<RouteModel>()
+            if(!DoesItFly(parcelList, startCity, destinationCity))
             {
-                new RouteModel(),
-            };
+                //Error: your package will not fly    
+            }
+
+            //TODO: Call Algorithm (GetShortestPathDijkstra)
+            throw new NotImplementedException();
         }
 
+<<<<<<< HEAD
         public RouteModel GetShortestPathDijkstra(Node start, Node end, Parcel parcel)
+=======
+        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            if (!DoesItFly(parcelList, startCity, destinationCity))
+            {
+                //Error: Your package will not fly
+            }
+
+            throw new NotImplementedException();
+            //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
+        }
+
+        private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            foreach (Parcel parcel in parcelList)
+            {
+                if (parcel.RecordedDelivery || parcel.LiveAnimals)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            throw new NotImplementedException();
+
+        }
+
+        public List<Node> GetShortestPathDijkstra(Node start, Node end)
+>>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
         {
             DijkstraSearch(start, end, parcel);
             var shortestPath = new List<Connection>();
@@ -81,6 +120,7 @@ namespace OceanicWorldAirService.Services
                     return;
             } while (prioQueue.Any());
         }
+<<<<<<< HEAD
 
         public List<Node> GenerateAfricaMap()
         {
@@ -295,5 +335,7 @@ namespace OceanicWorldAirService.Services
             return map;
         }
 
+=======
+>>>>>>> 07640ed71f4f4bac478bb81e599a35eb72d5e6ee
     }
 }
