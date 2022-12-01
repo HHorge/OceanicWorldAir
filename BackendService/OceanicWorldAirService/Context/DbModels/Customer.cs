@@ -1,4 +1,4 @@
-﻿namespace OceanicWorldAirService.Models
+﻿namespace OceanicWorldAirService.Context.DbModels
 {
     public class Customer
     {

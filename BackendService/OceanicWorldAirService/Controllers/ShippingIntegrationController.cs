@@ -24,9 +24,9 @@ namespace OceanicWorldAirService.Controllers
         }
 
         [HttpPost(Name = "FindCosts")]
-        public Costs FindCosts(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public Costs FindCosts(ApiRequestObject request)
         {
-            var result = _routeFindingService.FindCostForExternals(parcelList, startCityId, destinationCityId);
+            var result = _routeFindingService.FindCostForExternals(request.Parcels, request.StartCityId, request.DestinationCityId);
 
             return result;
         }
