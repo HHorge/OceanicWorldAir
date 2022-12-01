@@ -1,3 +1,15 @@
-.map-container{
+body {
+    background: rgb(255, 203, 236);
+    background: radial-gradient(circle, rgba(255, 203, 236, 1) 0%, rgba(255, 244, 244, 1) 100%);
+}
+
+.map-container {
     position: relative;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+    background-color: #304596 !important;
 }

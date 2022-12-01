@@ -1,0 +1,10 @@
+.loginbtn{
+    position: absolute;
+    width:4rem;
+    height: 1.5rem;
+    border: 2px black solid;
+    background: #f194ff;
+    top: 500px;
+    left: 60px;
+    content: "Login"
+}
