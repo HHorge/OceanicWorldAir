@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OceanicWorldAirService.Models;
 using OceanicWorldAirService.Services;
+using RouteModel = OceanicWorldAirService.Models.Route;
 
 namespace OceanicWorldAirService.Controllers
 {
@@ -22,7 +24,7 @@ namespace OceanicWorldAirService.Controllers
         }
 
         [HttpGet(Name = "FindRoute")]
-        public async Task<ActionResult<IEnumerable<int>>> FindRoutes()
+        public async Task<ActionResult<IEnumerable<RouteModel>>> FindRoutes()
         {
             // TODO: Change the return type to IEnumerable<model with retun body like nodes, total price, total time>
             var result = await _routeFindingService.FindRoutes();
