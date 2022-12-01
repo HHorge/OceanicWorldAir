@@ -21,6 +21,8 @@ builder.Services.ConfigureSwaggerGen(setup =>
 });
 
 builder.Services.AddScoped<IRouteFindingService, RouteFindingService>();
+builder.Services.AddScoped<IShippingHttpRequester, ShippingHttpRequester>();
+builder.Services.AddScoped<ICostCalculationService, CostCalculationService>();
 RegisterFinanceDbContext(builder);
 
 var app = builder.Build();
