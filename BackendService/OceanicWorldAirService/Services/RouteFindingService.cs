@@ -17,15 +17,22 @@ namespace OceanicWorldAirService.Services
 
         public async Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            if(DoesItFly(parcelList, startCity, destinationCity))
+            if(!DoesItFly(parcelList, startCity, destinationCity))
             {
-                //TODO: Call Algorithm (GetShortestPathDijkstra)
-            } 
+                //Error: your package will not fly    
+            }
 
-            return new List<RouteModel>()
+            //TODO: Call Algorithm (GetShortestPathDijkstra)
+        }
+
+        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            if (!DoesItFly(parcelList, startCity, destinationCity))
             {
-                new RouteModel(),
-            };
+                //Error: Your package will not fly
+            }
+
+            //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
         }
 
         private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
