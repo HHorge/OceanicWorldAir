@@ -43,7 +43,7 @@ namespace OceanicWorldAirService.Services
 
             //MailService.SendMail("bach97@live.dk");
 
-            return GetShortestPathDijkstra(startNode, endNode, parcelList);
+            return GetShortestPathDijkstra(startNode, endNode, parcelList, false);
         }
 
         public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId)
@@ -94,9 +94,9 @@ namespace OceanicWorldAirService.Services
             return true;
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, bool checkOnlyUs = true)
         {
-            DijkstraSearch(start, end, parcelList, 1);
+            DijkstraSearch(start, end, parcelList, 1, checkOnlyUs);
             var shortestPath = new List<Connection>();
             //shortestPath.Add(end.NearestConnectionToStart);
             BuildShortestPath(shortestPath, end);
@@ -119,7 +119,7 @@ namespace OceanicWorldAirService.Services
             BuildShortestPath(list, node.NearestToStart);
         }
 
-        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType)
+        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType, bool checkOnlyUs)
         {
             start.MinCostToStart = 0;
             var prioQueue = new List<Node>();
@@ -131,9 +131,14 @@ namespace OceanicWorldAirService.Services
                 prioQueue.Remove(node);
                 foreach (var cnn in node.Connections)
                 {
+                    if (checkOnlyUs && cnn.Company != Company.OceanicAirlines)
+                    {
+                        continue;
+                    }
                     var childNode = cnn.ConnectedNode;
                     if (childNode.Visited)
                         continue;
+
 
                     float connectionCost;
                     Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn);
