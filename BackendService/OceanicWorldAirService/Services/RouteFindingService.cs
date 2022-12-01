@@ -38,6 +38,29 @@ namespace OceanicWorldAirService.Services
         private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
         {
             //TODO: Do our checks
+            foreach (Parcel parcel in parcelList)
+            {
+                if (parcel.RecordedDelivery)
+                {
+                    //return error (not supported)
+                }
+                if (parcel.Weapons)
+                {
+                    //extra price +100%
+                }
+                if (parcel.LiveAnimals)
+                {
+                    //return error (not supported)
+                }
+                if (parcel.CautiousParcels)
+                {
+                    //extra price +75%
+                }
+                if (parcel.RefrigeratedGoods)
+                {
+                    //extra price +10%
+                }
+            }
         }
 
         public List<Node> GetShortestPathDijkstra(Node start, Node end)

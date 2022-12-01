@@ -10,7 +10,7 @@ namespace OceanicWorldAirService.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class RouteFindingController : ControllerBase
+    public class ShippingIntegrationController : ControllerBase
     {
         private readonly IRouteFindingService _routeFindingService;
 
@@ -18,16 +18,15 @@ namespace OceanicWorldAirService.Controllers
         /// Initializes a new instance of the <see cref="RouteFindingController"/> class.
         /// </summary>
         /// <param name="routeFindingService">Implementation of <see cref="IRouteFindingService"/> class.</param>>
-        public RouteFindingController(IRouteFindingService routeFindingService)
+        public ShippingIntegrationController(IRouteFindingService routeFindingService)
         {
             _routeFindingService = routeFindingService;
         }
 
         [HttpGet(Name = "FindRoute")]
-        public async Task<ActionResult<IEnumerable<RouteModel>>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
+        public async Task<ActionResult<Costs>> FindCosts(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            // TODO: Change the return type to IEnumerable<model with retun body like nodes, total price, total time>
-            var result = await _routeFindingService.FindRoutes(parcelList, startCity, destinationCity);
+            var result = await _routeFindingService.FindCostForExternals(parcelList, startCity, destinationCity);
 
             return Ok(result);
         }
