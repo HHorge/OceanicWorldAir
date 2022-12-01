@@ -2,7 +2,7 @@
 {
     public class Booking
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public Route Route { get; set; } = default!;
 
