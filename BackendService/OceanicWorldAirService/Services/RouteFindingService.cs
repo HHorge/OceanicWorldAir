@@ -321,6 +321,31 @@ namespace OceanicWorldAirService.Services
             VictoriaFalls.Connections.Add(new Connection(VictoriaFalls, Mozambique, Company.TelestarLogistics));
             VictoriaFalls.Connections.Add(new Connection(VictoriaFalls, Congo, Company.TelestarLogistics));
 
+            DragonMountain.Connections.Add(new Connection(DragonMountain, VictoriaFalls, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, Mozambique, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, Congo, Company.TelestarLogistics));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, CapeTown, Company.OceanicAirlines));
+            DragonMountain.Connections.Add(new Connection(DragonMountain, LakeVictoria, Company.OceanicAirlines));
+
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeGuardafui, Company.OceanicAirlines));
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeGuardafui, Company.EastIndiaTrading));
+            Tamatave.Connections.Add(new Connection(Tamatave, CapeTown, Company.OceanicAirlines));
+
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, Mozambique, Company.EastIndiaTrading));
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, CapeTown, Company.OceanicAirlines));
+            CapeStMarie.Connections.Add(new Connection(CapeStMarie, CapeTown, Company.EastIndiaTrading));
+
+            CapeTown.Connections.Add(new Connection(CapeTown, StHelena, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, CapeStMarie, Company.EastIndiaTrading));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.TelestarLogistics));
+            CapeTown.Connections.Add(new Connection(CapeTown, StHelena, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, WhalefishBay, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, Ocomba, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, DragonMountain, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, Tamatave, Company.OceanicAirlines));
+            CapeTown.Connections.Add(new Connection(CapeTown, CapeStMarie, Company.OceanicAirlines));
+
             // add all nodes to world map
 
             return map;
