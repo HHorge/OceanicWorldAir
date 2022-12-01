@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
@@ -59,6 +60,18 @@ const FormComponent = (props) => {
         setDepth(event.target.value);
     }
 
+    const handleSubmit = () => {
+        axios.defaults.headers.post['Content-Type'] ='application/json';
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = "*";
+        axios.defaults.headers.post['Access-Control-Allow-Credentials'] = "false";
+
+        axios.post('https://wa-oa-dk2.azurewebsites.net/ShippingIntegration', { params: {
+            startCityId: startCity,
+            destinationCityId: endCity
+          }})
+        .then(response => console.log(response.data));
+    }
+
     return (
         <Form action="/submit" id="package-input">
             <Form.Group className="mb-3 mt-3" controlId="formWeight">
@@ -114,7 +127,7 @@ const FormComponent = (props) => {
                     <span>: {addedPackages.length}</span>
                 </div>
                 <Button type="button" disabled={isDisabled()} onClick={handleAddPackage}><img className="icon" src={Icons.Plus}></img></Button>
-                <Button type="submit" disabled={addedPackages.length === 0}><img className="icon" src={Icons.PaperPlane}></img></Button>
+                <Button type="submit" disabled={addedPackages.length === 1} onClick={() => handleSubmit()}><img className="icon" src={Icons.PaperPlane}></img></Button>
             </div>
             <div className="Spacer" style={{ height: "50px" }}>
             </div>
