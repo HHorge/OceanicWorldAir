@@ -2,8 +2,6 @@
 {
     public class ParcelDto
     {
-        public Guid Id { get; set; }
-
         public float Weigth { get; set; }
 
         public float Depth { get; set; }
