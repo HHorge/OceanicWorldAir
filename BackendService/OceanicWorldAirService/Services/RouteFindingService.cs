@@ -1,4 +1,5 @@
-﻿using RouteModel = OceanicWorldAirService.Models.Route;
+﻿using OceanicWorldAirService.Models;
+using RouteModel = OceanicWorldAirService.Models.Route;
 
 namespace OceanicWorldAirService.Services
 {
@@ -14,12 +15,22 @@ namespace OceanicWorldAirService.Services
         {
         }
 
-        public async Task<IEnumerable<RouteModel>> FindRoutes()
+        public async Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
         {
+            if(DoesItFly(parcelList, startCity, destinationCity))
+            {
+                //TODO: Algorithm
+            } 
+
             return new List<RouteModel>()
             {
                 new RouteModel(),
             };
+        }
+
+        private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            //TODO: Do our checks
         }
     }
 }
