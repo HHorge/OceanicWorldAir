@@ -1,4 +1,5 @@
-﻿using RouteModel = OceanicWorldAirService.Models.Route;
+﻿using OceanicWorldAirService.Models;
+using RouteModel = OceanicWorldAirService.Models.Route;
 
 namespace OceanicWorldAirService.Services
 {
@@ -10,6 +11,7 @@ namespace OceanicWorldAirService.Services
         /// <summary>
         /// Method for retrieving the calculated Routes.
         /// </summary>
-        public Task<IEnumerable<RouteModel>> FindRoutes();
+        public Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity);
+        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity);
     }
 }

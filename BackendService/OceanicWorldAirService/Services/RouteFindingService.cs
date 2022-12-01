@@ -1,4 +1,5 @@
-﻿using RouteModel = OceanicWorldAirService.Models.Route;
+﻿using OceanicWorldAirService.Models;
+using RouteModel = OceanicWorldAirService.Models.Route;
 
 namespace OceanicWorldAirService.Services
 {
@@ -14,13 +15,44 @@ namespace OceanicWorldAirService.Services
         {
         }
 
-        public async Task<IEnumerable<RouteModel>> FindRoutes()
+        public async Task<IEnumerable<RouteModel>> FindRoutes(List<Parcel> parcelList, string startCity, string destinationCity)
         {
-            return new List<RouteModel>()
+            if(!DoesItFly(parcelList, startCity, destinationCity))
             {
-                new RouteModel(),
-            };
+                //Error: your package will not fly    
+            }
+
+            //TODO: Call Algorithm (GetShortestPathDijkstra)
+            throw new NotImplementedException();
         }
+
+        public Task<Costs> FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            if (!DoesItFly(parcelList, startCity, destinationCity))
+            {
+                //Error: Your package will not fly
+            }
+
+            throw new NotImplementedException();
+            //TODO: Find Price and Time estimat between the destinations for the externals and return it as the Object "Costs"
+        }
+
+        private bool DoesItFly(List<Parcel> parcelList, string startCity, string destinationCity)
+        {
+            foreach (Parcel parcel in parcelList)
+            {
+                if (parcel.RecordedDelivery || parcel.LiveAnimals)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            throw new NotImplementedException();
+
+        }
+
         public List<Node> GetShortestPathDijkstra(Node start, Node end)
         {
             DijkstraSearch(start, end);
@@ -68,8 +100,5 @@ namespace OceanicWorldAirService.Services
                     return;
             } while (prioQueue.Any());
         }
-
-
-
     }
 }
