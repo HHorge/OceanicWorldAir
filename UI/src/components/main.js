@@ -17,6 +17,7 @@ const Main = () => {
 
     const cityNodes = CITIES.map((e, i) => <Circle key={i} x={e.x} y={e.y} id={e.id} startCity={startCity} endCity={endCity} setStartCity={setStartCity} setEndCity={setEndCity}></Circle>)
 
+    console.log(addedPackages)
     return (
         <>
         <NavbarComponent />
@@ -25,7 +26,7 @@ const Main = () => {
                 <Map></Map>
                 {cityNodes}
             </div>
-            <FormComponent addedPackages={addedPackages} setAddedPackages={setAddedPackages} />
+            <FormComponent addedPackages={addedPackages} setAddedPackages={setAddedPackages}  startCity={startCity} endCity={endCity} />
         </div>
         </>
     )
