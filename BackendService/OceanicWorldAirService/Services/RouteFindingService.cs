@@ -2,6 +2,7 @@
 using OceanicWorldAirService.Models;
 using System.Collections.Immutable;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 
 namespace OceanicWorldAirService.Services
@@ -18,38 +19,57 @@ namespace OceanicWorldAirService.Services
         {
         }
 
-        public IEnumerable<RouteModel> FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
         {
+            foreach (Parcel parcel in parcelList)
+            {
+                parcel.Id = Guid.NewGuid();
+            }
+
             if(!IsParcelSupported(parcelList))
             {
                 //Error: your package will not fly    
             }
 
-            //GetShortestPathDijkstra(start, end, parcelList).Connections.Count();
-            throw new NotImplementedException();
+            List<Node> nodeList = GenerateAfricaMap();
+
+            Node startNode = nodeList.First(p => p.Id == startCityId);
+            Node endNode = nodeList.First(p => p.Id == destinationCityId);
+
+           return GetShortestPathDijkstra(startNode, endNode, parcelList);
         }
 
-        public Costs FindCostForExternals(List<Parcel> parcelList, string startCity, string destinationCity)
+        public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId)
         {
             if (!IsParcelSupported(parcelList))
             {
                 //Error: Your package will not fly
             }
 
-            //foreach (Node cityNode in nodeList)
-            //{
-            //    if (cityNode.Name == startCity)
-            //    {
+            List<Node> nodeList = GenerateAfricaMap();
 
-            //    }
-            //}
+            Node startNode = nodeList.First(p => p.Id == startCityId);
+            Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
+            List<Connection> connectionList = GetShortestPathDijkstra(startNode, endNode, parcelList).Connections.ToList();
 
-           //List<Connection> connectionList = GetShortestPathDijkstra(startCity, destinationCity, parcelList).Connections;
+            float routePrice = 0;
+            float routeTimeEstimat = 0;
+
+            foreach (Connection connection in connectionList)
+            {
+                if (connection.Costs.Price != null)
+                {
+                    routePrice += float.Parse(connection.Costs.Price);
+                }
+
+                routeTimeEstimat += connection.Costs.Time;
+            }
 
             return new Costs()
             {
-                
+                Price = string.Format("{0:N2}", routePrice),
+                Time = routeTimeEstimat
             };
         }
 
@@ -109,8 +129,13 @@ namespace OceanicWorldAirService.Services
                         continue;
 
                     float connectionCost;
-                    var costObj = cnn.Cost(parcels);
-                    if (searchType == 0) //Cheapest Route
+                    Costs costObj = cnn.Cost(parcels);
+
+                    if (costObj == null || costObj.Price == null)
+                    {
+                        continue;
+                    }
+                    else if (searchType == 0) //Cheapest Route
                     {
                         connectionCost = float.Parse(costObj.Price);
                     }
@@ -118,16 +143,9 @@ namespace OceanicWorldAirService.Services
                     {
                         connectionCost = costObj.Time;
                     }
-                    else //Weighted Route
+                    else 
                     {
-                        if (costObj.Price != null)
-                        {
-                            connectionCost = (costObj.Time) / float.Parse(costObj.Price);
-                        }
-                        else
-                        {
-                            continue;
-                        }
+                        connectionCost = (costObj.Time) / float.Parse(costObj.Price);
                     }
 
                     if (childNode.MinCostToStart == null ||

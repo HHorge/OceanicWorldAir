@@ -23,12 +23,12 @@ namespace OceanicWorldAirService.Controllers
             _routeFindingService = routeFindingService;
         }
 
-        [HttpGet(Name = "FindCosts")]
-        public async Task<ActionResult<Costs>> FindCosts(List<Parcel> parcelList, string startCity, string destinationCity)
+        [HttpPost(Name = "FindCosts")]
+        public Costs FindCosts(List<Parcel> parcelList, int startCityId, int destinationCityId)
         {
-            var result = await _routeFindingService.FindCostForExternals(parcelList, startCity, destinationCity);
+            var result = _routeFindingService.FindCostForExternals(parcelList, startCityId, destinationCityId);
 
-            return Ok(result);
+            return result;
         }
     }
 }
