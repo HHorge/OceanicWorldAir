@@ -1,4 +1,4 @@
-import { config } from '../config';
+import { msalConfig } from '../constants/authConfig';
 import { PublicClientApplication } from '@azure/msal-browser'
 import Button from 'react-bootstrap/Button'
 
@@ -17,8 +17,8 @@ class LoginMethod extends React.Component {
 
         this.publicClientApplication = new PublicClientApplication({
             auth: {
-                clientId: config.appId,
-                redirectUri: config.redirectUri
+                clientId: msalConfig.appId,
+                redirectUri: msalConfig.redirectUri
             },
             cache: {
                 cacheLocation: "sessionStorage",
@@ -32,7 +32,7 @@ class LoginMethod extends React.Component {
         try {
             await this.publicClientApplication.loginPopup(
                 {
-                    scopes: config.scopes,
+                    scopes: msalConfig.scopes,
                     prompt: "select_account"
                 }
             );
