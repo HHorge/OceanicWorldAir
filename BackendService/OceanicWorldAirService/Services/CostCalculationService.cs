@@ -81,17 +81,17 @@ namespace OceanicWorldAirService.Services
 
         private int GetDimensionCategory(Parcel parcel)
         {
-            if (parcel.Dimensions.depth < 25 || parcel.Dimensions.width < 25 || parcel.Dimensions.height < 25)
+            if (parcel.Dimensions.depth > 40 || parcel.Dimensions.width > 40 || parcel.Dimensions.height > 40)
             {
-                return 1;
+                return 3;
             }
-            else if (parcel.Dimensions.depth < 40 || parcel.Dimensions.width < 40 || parcel.Dimensions.height < 40)
+            else if (parcel.Dimensions.depth > 25 || parcel.Dimensions.width > 25 || parcel.Dimensions.height > 25)
             {
                 return 2;
             }
             else
             {
-                return 3;
+                return 1;
             }
         }
 
@@ -137,12 +137,7 @@ namespace OceanicWorldAirService.Services
 
         private double UsdToDkk(int Usd)
         {
-            return Usd * 0.14;
-        }
-
-        private double DkkToUsd(int Dkk)
-        {
-            return Dkk / 0.14;
+            return Usd / 0.14;
         }
     }
 }

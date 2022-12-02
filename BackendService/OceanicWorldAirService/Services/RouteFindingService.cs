@@ -209,6 +209,7 @@ namespace OceanicWorldAirService.Services
 
                     float connectionCost;
                     Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn, oceanicAirlinesSupportedParcel);
+                  
 
                     if (costObj == null || costObj.Price == null)
                     {
@@ -225,6 +226,14 @@ namespace OceanicWorldAirService.Services
                     else 
                     {
                         connectionCost = (costObj.Time) * float.Parse(costObj.Price);
+                    }
+
+                    if (costObj.Price != null)
+                    {
+                        
+                        float Price = (float.Parse(costObj.Price) / 0.14f);
+                        costObj.Price = string.Format("{0:N2}", Price);
+                        cnn.Costs = costObj;
                     }
 
                     if (childNode.MinCostToStart == null ||
@@ -512,7 +521,5 @@ namespace OceanicWorldAirService.Services
 
             return map;
         }
-
-
     }
 }
