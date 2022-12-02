@@ -24,11 +24,25 @@ namespace OceanicWorldAirService.Services
             _costCalculationService = costCalculationService;
         }
 
-        public RouteModel FindRoutes(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        public BookingResponse FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
         {
-            foreach (Parcel parcel in parcelList)
+            List<Parcel> parcelList = new List<Parcel>();
+
+            foreach (ParcelDto parcelDto in parcels)
             {
-                parcel.Id = Guid.NewGuid();
+                Parcel parcel = new Parcel()
+                {
+                    Id = Guid.NewGuid(),
+                    Weigth = parcelDto.Weigth,
+                    Dimensions = (parcelDto.Depth, parcelDto.Height, parcelDto.Weigth),
+                    RecordedDelivery = parcelDto.RecordedDelivery,
+                    Weapons = parcelDto.Weapons,
+                    LiveAnimals = parcelDto.LiveAnimals,
+                    CautiousParcels = parcelDto.CautiousParcels,
+                    RefrigeratedGoods = parcelDto.RefrigeratedGoods
+                };
+
+                parcelList.Add(parcel);
             }
 
             if(!IsParcelSupported(parcelList))
@@ -41,9 +55,32 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-            //MailService.SendMail("bach97@live.dk");
+            RouteModel route = GetShortestPathDijkstra(startNode, endNode, parcelList, false);
 
-            return GetShortestPathDijkstra(startNode, endNode, parcelList);
+            float routePrice = 0;
+            float routeTimeEstimat = 0;
+
+            foreach (Connection connection in route.Connections.ToList())
+            {
+                if (connection.Costs.Price != null)
+                {
+                    routePrice += float.Parse(connection.Costs.Price);
+                }
+
+                routeTimeEstimat += connection.Costs.Time;
+            }
+
+            BookingResponse booking = new BookingResponse()
+            {
+                Id = Guid.NewGuid(),
+                StartDestination = startNode.Name,
+                EndDestination = endNode.Name,
+                Price = string.Format("{0:N2}", routePrice),
+                Time = routeTimeEstimat,
+                Parcels = parcelList
+            };
+
+            return booking;
         }
 
         public Costs FindCostForExternals(List<Parcel> parcelList, int startCityId, int destinationCityId)
@@ -94,11 +131,10 @@ namespace OceanicWorldAirService.Services
             return true;
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, bool checkOnlyUs = true)
         {
-            DijkstraSearch(start, end, parcelList, 1);
+            DijkstraSearch(start, end, parcelList, 1, checkOnlyUs);
             var shortestPath = new List<Connection>();
-            //shortestPath.Add(end.NearestConnectionToStart);
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse(); // whatever if you want the correct order
 
@@ -119,7 +155,7 @@ namespace OceanicWorldAirService.Services
             BuildShortestPath(list, node.NearestToStart);
         }
 
-        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType)
+        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType, bool checkOnlyUs)
         {
             start.MinCostToStart = 0;
             var prioQueue = new List<Node>();
@@ -131,9 +167,14 @@ namespace OceanicWorldAirService.Services
                 prioQueue.Remove(node);
                 foreach (var cnn in node.Connections)
                 {
+                    if (checkOnlyUs && cnn.Company != Company.OceanicAirlines)
+                    {
+                        continue;
+                    }
                     var childNode = cnn.ConnectedNode;
                     if (childNode.Visited)
                         continue;
+
 
                     float connectionCost;
                     Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn);

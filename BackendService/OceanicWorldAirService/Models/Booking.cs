@@ -1,17 +1,13 @@
 ﻿namespace OceanicWorldAirService.Models
 {
-    public class Booking
+    public class BookingResponse
     {
         public Guid Id { get; set; }
+        public string StartDestination { get; set; } = string.Empty;
+        public string EndDestination { get; set; } = string.Empty;
+        public string Price { get; set; } = string.Empty;
 
-        public Route Route { get; set; } = default!;
-
-        public int Cost { get; set; }
-
-        public int Time { get; set; }
-
-        public int CustomerId { get; set; }
-
-        public Parcel Parcel { get; set; } = default!;
+        public float Time { get; set; }
+        public List<Parcel> Parcels { get; set; } = new List<Parcel>();
     }
 }

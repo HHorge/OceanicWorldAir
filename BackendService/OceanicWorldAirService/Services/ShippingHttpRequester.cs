@@ -30,7 +30,36 @@ namespace OceanicWorldAirService.Services
 
             var options = new JsonSerializerOptions()
             {
-                PropertyNameCaseInsensitive = true,              
+                PropertyNameCaseInsensitive = true,
+            };
+
+            Costs costs = JsonSerializer.Deserialize<Costs>(responseString, options);
+
+            return costs;
+        }
+
+        public async Task<Costs> TelstarLogisticsRequest(List<Parcel> parcelList, int startCityId, int destinationCityId)
+        {
+            ApiRequestObject request = new ApiRequestObject()
+            {
+                Parcels = parcelList,
+                StartCityId = startCityId,
+                DestinationCityId = destinationCityId
+            };
+
+            var content = JsonSerializer.Serialize(request);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+            var byteContent = new ByteArrayContent(buffer);
+
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = client.PostAsync("https://wa-tl-dk2.azurewebsites.net/FindCosts", byteContent);
+
+            var responseString = await response.Result.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true,
             };
 
             Costs costs = JsonSerializer.Deserialize<Costs>(responseString, options);

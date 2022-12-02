@@ -48,11 +48,26 @@ namespace OceanicWorldAirService.Services
             }
             else if (connection.Company == Company.TelestarLogistics) //car
             {
-                //connection.Costs =  _httpRequester.ShippingRequest(parcels, startCityId, destinationCityId, connection.Company).Result;
+                try
+                {
+                    connection.Costs = _httpRequester.TelstarLogisticsRequest(parcels, startCityId, destinationCityId).Result;
+                }
+                catch
+                {
+                    //integration not working
+                }
+                
             }
             else if (connection.Company == Company.EastIndiaTrading) //boat
             {
-                connection.Costs = _httpRequester.EastIndiaTradingRequest(parcels, startCityId, destinationCityId).Result;
+                try
+                {
+                    connection.Costs = _httpRequester.EastIndiaTradingRequest(parcels, startCityId, destinationCityId).Result;
+                }
+                catch
+                {
+                    //integration not working
+                }
             }
 
             return connection.Costs;
