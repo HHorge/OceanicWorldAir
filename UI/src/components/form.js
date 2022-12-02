@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { Icons } from '../constants/iconsEnum'
@@ -10,39 +10,43 @@ import { Icons } from '../constants/iconsEnum'
 import '../styles/form.css'
 
 const FormComponent = (props) => {
-    const { addedPackages, setAddedPackages, startCity, endCity } = props;
+    const { addedPackages, setAddedPackages, startCity, endCity, setModalShow, setOrder} = props;
 
     const [weight, setWeight] = useState(0)
     const [height, setHeight] = useState(0)
     const [width, setWidth] = useState(0)
     const [depth, setDepth] = useState(0)
-    //const [type, setType] = useState(0)
-
-    const [radioValue, setRadioValue] = useState('1');
-
-    const radios = [
-      { id: '1', checked: false },
-      { id: '2', checked: false },
-      { id: '3', checked: false },
-    ];
+    const [value, setValue] = useState([]);
 
     const handleAddPackage = () => {
 
-        let package1 = { startCity: startCity, endCity: endCity, weight: weight, height: height, width: width, depth: depth }
-        console.log("addedPackages", addedPackages, "package1", package1)
-        addedPackages.push(package1)
+        let parcel = {
+         
+                Weigth: weight,
+                Depth: depth,
+                Width: width,
+                Height: height,
+                RecordedDelivery: false,
+                Weapons: value.includes(1),
+                LiveAnimals: false,
+                CautiousParcels: value.includes(2),
+                RefrigeratedGoods: value.includes(3),
+            
+        }
+
+        addedPackages.push(parcel)
         setAddedPackages(addedPackages)
         document.getElementById("package-input").reset();
         setWeight(0)
         setHeight(0)
         setWidth(0)
         setDepth(0)
-        //console.log( event.value) // from elements property
-
+        setValue([])
     }
 
+    const handleChange = (val) => setValue(val);
+
     const isDisabled = () => {
-        console.log(weight, height, width, depth, startCity, endCity)
         return !(weight && height && width && depth && startCity !== null && endCity !== null)
     }
 
@@ -57,6 +61,22 @@ const FormComponent = (props) => {
     }
     const handleDepth = (event) => {
         setDepth(event.target.value);
+    }
+
+    const handleSubmit = () => {
+        let request = {
+            Parcels: addedPackages,
+            StartCityId: startCity,
+            DestinationCityId: endCity
+        }
+        fetch('https://wa-oa-dk2.azurewebsites.net/RouteFinding/FindRoute', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(request)
+        }).then((response) => response.json())
+        .then((data) => setOrder(data))
+        .then(() => setModalShow(true));
+
     }
 
     return (
@@ -91,22 +111,17 @@ const FormComponent = (props) => {
                 </div>
             </Form.Group>
             <div className="custom-row">
-            <ButtonGroup>
-        {radios.map((radio, idx) => (
-          <ToggleButton
-            key={idx}
-            id={`radio-${idx}`}
-            type="radio"
-            variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-            name="radio"
-            value={radio.value}
-            checked={radioValue === radio.value}
-            onChange={(e) => setRadioValue(e.currentTarget.value)}
-          >
-             <img className="icon" src={Icons.Packages}></img>
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
+                <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
+                    <ToggleButton id="tbg-btn-1" variant="secondary" value={1}>
+                        <img className="icon" src={Icons.Gun}></img>
+                    </ToggleButton>
+                    <ToggleButton id="tbg-btn-2" variant="secondary" value={2}>
+                        <img className="icon" src={Icons.Fragile}></img>
+                    </ToggleButton>
+                    <ToggleButton id="tbg-btn-3" variant="secondary" value={3}>
+                        <img className="icon" src={Icons.Fridge}></img>
+                    </ToggleButton>
+                </ToggleButtonGroup>
             </div>
             <div className="button-row mt-3">
                 <div>
@@ -114,7 +129,7 @@ const FormComponent = (props) => {
                     <span>: {addedPackages.length}</span>
                 </div>
                 <Button type="button" disabled={isDisabled()} onClick={handleAddPackage}><img className="icon" src={Icons.Plus}></img></Button>
-                <Button type="submit" disabled={addedPackages.length === 0}><img className="icon" src={Icons.PaperPlane}></img></Button>
+                <Button type="button" disabled={addedPackages.length < 1} onClick={() => handleSubmit()}><img className="icon" src={Icons.PaperPlane}></img></Button>
             </div>
             <div className="Spacer" style={{ height: "50px" }}>
             </div>

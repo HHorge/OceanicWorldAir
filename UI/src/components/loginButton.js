@@ -3,6 +3,8 @@ import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../constants/authConfig";
 import Button from "react-bootstrap/Button";
 
+import '../styles/loginButton.css'
+
 
 /**
  * Renders a button which, when selected, will open a popup for login
@@ -18,6 +20,8 @@ export const SignInButton = () => {
         }
     }
     return (
-        <Button variant="secondary" className="ml-auto" onClick={() => handleLogin("popup")}>Sign in using Popup</Button>
+        <div className="login-button-wrapper">
+            <Button variant="primary" className="login-button" onClick={() => handleLogin("popup")}>Sign in</Button>
+        </div>
     );
 }
