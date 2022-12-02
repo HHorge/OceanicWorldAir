@@ -13,7 +13,7 @@ const [sent, setSent] = useState(false)
   const titles = ["Fastest", "Cheapest", "Recommended"]
 
   const handleClick = (order) => {
-    
+
    const request =  {
       id: order.id,
       startDestination: order.startDestination,

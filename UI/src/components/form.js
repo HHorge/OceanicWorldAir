@@ -21,7 +21,7 @@ const FormComponent = (props) => {
     const handleAddPackage = () => {
 
         let parcel = {
-         
+            
                 Weigth: weight,
                 Depth: depth,
                 Width: width,

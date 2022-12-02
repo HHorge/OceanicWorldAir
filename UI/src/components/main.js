@@ -20,9 +20,6 @@ const Main = () => {
     const [order, setOrder] = useState([])
     const [modalShow, setModalShow] = React.useState(false);
 
-
-
-
     const isAuthenticated = useIsAuthenticated();
 
     const cityNodes = CITIES.map((e, i) => <Circle key={i} x={e.x} y={e.y} id={e.id} startCity={startCity} endCity={endCity} setStartCity={setStartCity} setEndCity={setEndCity}></Circle>)
