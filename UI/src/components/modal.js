@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 
 export const ModalComponent = (props) => {
   const { order } = props;
+
   return (
     <Modal
       {...props}
@@ -26,7 +27,7 @@ export const ModalComponent = (props) => {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={() => window.location.reload(false)}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

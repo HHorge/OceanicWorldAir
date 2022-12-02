@@ -33,7 +33,7 @@ const FormComponent = (props) => {
                 RefrigeratedGoods: value.includes(3),
             
         }
-        console.log("addedPackages", addedPackages, "package1", parcel)
+
         addedPackages.push(parcel)
         setAddedPackages(addedPackages)
         document.getElementById("package-input").reset();
@@ -42,14 +42,11 @@ const FormComponent = (props) => {
         setWidth(0)
         setDepth(0)
         setValue([])
-        //console.log( event.value) // from elements property
-
     }
 
     const handleChange = (val) => setValue(val);
 
     const isDisabled = () => {
-        console.log(weight, height, width, depth, startCity, endCity)
         return !(weight && height && width && depth && startCity !== null && endCity !== null)
     }
 

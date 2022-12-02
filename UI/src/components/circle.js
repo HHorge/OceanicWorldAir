@@ -21,8 +21,7 @@ const Circle = (props) => {
     const handleClick = () => {
         id === startCity ? setStartCity(null) : startCity === null ? setStartCity(id) : id === endCity ? setEndCity(null) : setEndCity(id);
     }
-
-    //console.log("startCity", startCity, "id", id)
+    
     return (
         <div onClick={() => {handleClick()}} className='city-circle' style={{"backgroundColor": color, "top": `${y}px`, "left": `${x}px`}}>  
         </div>
