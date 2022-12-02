@@ -10,9 +10,9 @@ export const ModalComponent = (props) => {
   const titles = ["Fastest", "Cheapest", "Recommended"]
   const content = order.map((e, i) => {
     return (
-      <>
+      <div key={i}>
         <h5>{titles[i]}</h5>
-        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
+        <div  style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
           <p >
             <img className="icon" src={Icons.Dollar}></img><span>{e.price}</span>
           </p>
@@ -21,7 +21,7 @@ export const ModalComponent = (props) => {
           </p>
           <Button type="button" onClick={() => { }}><img className="icon" src={Icons.PaperPlane}></img></Button>
         </div>
-      </>
+      </div>
     )
   })
 
@@ -39,7 +39,7 @@ export const ModalComponent = (props) => {
       </Modal.Header>
       <Modal.Body>
 
-        <h4>{order[0].startDestination} to {order[0].endDestination}</h4>
+        <h4>{order[0] && order[0].startDestination} to {order[0] && order[0].endDestination}</h4>
         {content}
       </Modal.Body>
       <Modal.Footer>
