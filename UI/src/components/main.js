@@ -38,6 +38,7 @@ const Main = () => {
         <ModalComponent
             order={order}
             show={modalShow}
+            addedPackages={addedPackages}
             onHide={() => setModalShow(false)}
         />
     
