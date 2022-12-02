@@ -1,8 +1,29 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import { Icons } from '../constants/iconsEnum'
+
 export const ModalComponent = (props) => {
   const { order } = props;
+
+
+  const titles = ["Fastest", "Cheapest", "Recommended"]
+  const content = order.map((e, i) => {
+    return (
+      <>
+        <h5>{titles[i]}</h5>
+        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
+          <p >
+            <img className="icon" src={Icons.Dollar}></img><span>{e.price}</span>
+          </p>
+          <p>
+            <img className="icon" src={Icons.Time}></img><span>{e.time}h</span>
+          </p>
+          <Button type="button" onClick={() => { }}><img className="icon" src={Icons.PaperPlane}></img></Button>
+        </div>
+      </>
+    )
+  })
 
   return (
     <Modal
@@ -18,13 +39,8 @@ export const ModalComponent = (props) => {
       </Modal.Header>
       <Modal.Body>
 
-        <h4>{order.startDestination} to {order.endDestination}</h4>
-        <p>
-          <b>$: </b><span>{order.price}</span> 
-        </p>
-        <p>
-        <b>Time: </b><span>{order.time}h</span> 
-        </p>
+        <h4>{order[0].startDestination} to {order[0].endDestination}</h4>
+        {content}
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={() => window.location.reload(false)}>Close</Button>

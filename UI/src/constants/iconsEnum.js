@@ -10,4 +10,6 @@ export const Icons = {
     Plus: 'https://i.imgur.com/fVAO9Lg.png',
     Gun:'https://i.imgur.com/9V5Xgrp.png',
     Fridge: 'https://i.imgur.com/IRbGr8R.png',
+    Time: 'https://i.imgur.com/77VheBk.png',
+    Dollar: 'https://i.imgur.com/KmO9chH.png',
 }

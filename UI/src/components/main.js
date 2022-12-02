@@ -17,7 +17,7 @@ const Main = () => {
     const [startCity, setStartCity] = useState(null);
     const [endCity, setEndCity] = useState(null);
     const [addedPackages, setAddedPackages] = useState([])
-    const [order, setOrder] = useState({})
+    const [order, setOrder] = useState([])
     const [modalShow, setModalShow] = React.useState(false);
 
 
