@@ -231,7 +231,7 @@ namespace OceanicWorldAirService.Services
                     if (costObj.Price != null)
                     {
                         
-                        float Price = (float.Parse(costObj.Price) / 0.14f);
+                        float Price = (float.Parse(costObj.Price) * 0.14f);
                         costObj.Price = string.Format("{0:N2}", Price);
                         cnn.Costs = costObj;
                     }
