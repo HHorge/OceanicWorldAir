@@ -45,28 +45,38 @@ namespace OceanicWorldAirService.Services
                 parcelList.Add(parcel);
             }
 
+            bool oceanicAirlinesSupportedParcel = true;
+
             if(!IsParcelSupported(parcelList))
             {
-                //Error: your package will not fly    
+                oceanicAirlinesSupportedParcel = false;
             }
 
-            List<Node> nodeList = GenerateAfricaMap();
-
-            Node startNode = nodeList.First(p => p.Id == startCityId);
-            Node endNode = nodeList.First(p => p.Id == destinationCityId);
-
             //Cheapest route
-            RouteModel cheapestRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 0, false);
+            List<Node> cheapestNodeList = GenerateAfricaMap();
+            Node cheapestStartNode = cheapestNodeList.First(p => p.Id == startCityId);
+            Node cheapestEndNode = cheapestNodeList.First(p => p.Id == destinationCityId);
+            
+            RouteModel cheapestRoute = GetShortestPathDijkstra(cheapestStartNode, cheapestEndNode, parcelList, 0, false, oceanicAirlinesSupportedParcel);
             //Fastest route
-            RouteModel fastestRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 1, false);
+            List<Node> fastestNodeList = GenerateAfricaMap();
+            Node fastestStartNode = fastestNodeList.First(p => p.Id == startCityId);
+            Node fastestEndNode = fastestNodeList.First(p => p.Id == destinationCityId);
+
+            RouteModel fastestRoute = GetShortestPathDijkstra(fastestStartNode, fastestEndNode, parcelList, 1, false, oceanicAirlinesSupportedParcel);
+            
             //Weighted route
-            RouteModel weightedRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 2, false);
+            List<Node> weightedNodeList = GenerateAfricaMap();
+            Node weighedStartNode = weightedNodeList.First(p => p.Id == startCityId);
+            Node weightedEndNode = weightedNodeList.First(p => p.Id == destinationCityId);
+
+            RouteModel weightedRoute = GetShortestPathDijkstra(weighedStartNode, weightedEndNode, parcelList, 2, false, oceanicAirlinesSupportedParcel);
 
             List<BookingResponse> bookingResponses = new List<BookingResponse>()
             {
-                RouteToBookingResponse(cheapestRoute, parcelList, startNode, endNode),
-                RouteToBookingResponse(fastestRoute, parcelList, startNode, endNode),
-                RouteToBookingResponse(weightedRoute, parcelList, startNode, endNode)
+                RouteToBookingResponse(cheapestRoute, parcelList, cheapestStartNode, cheapestEndNode),
+                RouteToBookingResponse(fastestRoute, parcelList, fastestStartNode, fastestEndNode),
+                RouteToBookingResponse(weightedRoute, parcelList, weighedStartNode, weightedEndNode)
             };
 
             return bookingResponses;
@@ -104,7 +114,11 @@ namespace OceanicWorldAirService.Services
         {
             if (!IsParcelSupported(parcelList))
             {
-                //Error: Your package will not fly
+                return new Costs()
+                {
+                    Price = "-1",
+                    Time = -1,
+                };
             }
 
             List<Node> nodeList = GenerateAfricaMap();
@@ -112,7 +126,7 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-            List<Connection> connectionList = GetShortestPathDijkstra(startNode, endNode, parcelList, 1).Connections.ToList();
+            List<Connection> connectionList = GetShortestPathDijkstra(startNode, endNode, parcelList, 1, true, true).Connections.ToList();
 
             float routePrice = 0;
             float routeTimeEstimat = 0;
@@ -148,9 +162,9 @@ namespace OceanicWorldAirService.Services
             return true;
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, int searchType, bool checkOnlyUs = true)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, int searchType, bool checkOnlyUs, bool oceanicAirlinesSupportedParcel)
         {
-            DijkstraSearch(start, end, parcelList, searchType, checkOnlyUs);
+            DijkstraSearch(start, end, parcelList, searchType, checkOnlyUs, oceanicAirlinesSupportedParcel);
             var shortestPath = new List<Connection>();
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse(); // whatever if you want the correct order
@@ -172,7 +186,7 @@ namespace OceanicWorldAirService.Services
             BuildShortestPath(list, node.NearestToStart);
         }
 
-        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType, bool checkOnlyUs)
+        private void DijkstraSearch(Node start, Node end, List<Parcel> parcels, int searchType, bool checkOnlyUs, bool oceanicAirlinesSupportedParcel)
         {
             start.MinCostToStart = 0;
             var prioQueue = new List<Node>();
@@ -194,7 +208,7 @@ namespace OceanicWorldAirService.Services
 
 
                     float connectionCost;
-                    Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn);
+                    Costs costObj = _costCalculationService.Cost(parcels, node.Id, childNode.Id, cnn, oceanicAirlinesSupportedParcel);
 
                     if (costObj == null || costObj.Price == null)
                     {
@@ -210,7 +224,7 @@ namespace OceanicWorldAirService.Services
                     }
                     else 
                     {
-                        connectionCost = (costObj.Time) / float.Parse(costObj.Price);
+                        connectionCost = (costObj.Time) * float.Parse(costObj.Price);
                     }
 
                     if (childNode.MinCostToStart == null ||

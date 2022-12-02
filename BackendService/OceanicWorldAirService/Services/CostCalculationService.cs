@@ -11,9 +11,9 @@ namespace OceanicWorldAirService.Services
             _httpRequester = httpRequester;
         }
 
-        public Costs Cost(List<Parcel> parcels, int startCityId, int destinationCityId, Connection connection)
+        public Costs Cost(List<Parcel> parcels, int startCityId, int destinationCityId, Connection connection, bool oceanicAirlinesSupportedParcel)
         {
-            if (connection.Company == Company.OceanicAirlines) //plane
+            if (connection.Company == Company.OceanicAirlines && oceanicAirlinesSupportedParcel) //plane
             {
                 double totalPrice = 0;
 
@@ -138,6 +138,11 @@ namespace OceanicWorldAirService.Services
         private double UsdToDkk(int Usd)
         {
             return Usd * 0.14;
+        }
+
+        private double DkkToUsd(int Dkk)
+        {
+            return Dkk / 0.14;
         }
     }
 }
