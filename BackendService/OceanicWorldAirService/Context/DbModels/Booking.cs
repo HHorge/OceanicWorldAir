@@ -6,20 +6,20 @@ namespace OceanicWorldAirService.Context.DbModels
     {
         [Required]
         public Guid Id { get; set; }
-
-        [Required]
-        public string JsonRoute { get; set; } = string.Empty;
-
-        [Required]
-        public int Cost { get; set; }
         
         [Required]
-        public int Time { get; set; }
+        public string StartDestination { get; set; } = string.Empty;
 
         [Required]
-        public int CustomerId { get; set; }
+        public string EndDestination { get; set; } = string.Empty;
 
         [Required]
-        public string JsonParcel { get; set; } = string.Empty;
+        public string Price { get; set; } = string.Empty;
+
+        [Required]
+        public float Time { get; set; }
+
+        [Required]
+        public string JsonParcelsList { get; set; } = string.Empty;
     }
 }

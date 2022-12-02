@@ -24,7 +24,7 @@ namespace OceanicWorldAirService.Services
             _costCalculationService = costCalculationService;
         }
 
-        public BookingResponse FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
+        public List<BookingResponse> FindRoutes(List<ParcelDto> parcels, int startCityId, int destinationCityId)
         {
             List<Parcel> parcelList = new List<Parcel>();
 
@@ -55,8 +55,25 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-            RouteModel route = GetShortestPathDijkstra(startNode, endNode, parcelList, false);
+            //Cheapest route
+            RouteModel cheapestRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 0, false);
+            //Fastest route
+            RouteModel fastestRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 1, false);
+            //Weighted route
+            RouteModel weightedRoute = GetShortestPathDijkstra(startNode, endNode, parcelList, 2, false);
 
+            List<BookingResponse> bookingResponses = new List<BookingResponse>()
+            {
+                RouteToBookingResponse(cheapestRoute, parcelList, startNode, endNode),
+                RouteToBookingResponse(fastestRoute, parcelList, startNode, endNode),
+                RouteToBookingResponse(weightedRoute, parcelList, startNode, endNode)
+            };
+
+            return bookingResponses;
+        }
+
+        private BookingResponse RouteToBookingResponse(RouteModel route, List<Parcel> parcelList, Node startNode, Node endNode)
+        {
             float routePrice = 0;
             float routeTimeEstimat = 0;
 
@@ -95,7 +112,7 @@ namespace OceanicWorldAirService.Services
             Node startNode = nodeList.First(p => p.Id == startCityId);
             Node endNode = nodeList.First(p => p.Id == destinationCityId);
 
-            List<Connection> connectionList = GetShortestPathDijkstra(startNode, endNode, parcelList).Connections.ToList();
+            List<Connection> connectionList = GetShortestPathDijkstra(startNode, endNode, parcelList, 1).Connections.ToList();
 
             float routePrice = 0;
             float routeTimeEstimat = 0;
@@ -131,9 +148,9 @@ namespace OceanicWorldAirService.Services
             return true;
         }
 
-        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, bool checkOnlyUs = true)
+        public RouteModel GetShortestPathDijkstra(Node start, Node end, List<Parcel> parcelList, int searchType, bool checkOnlyUs = true)
         {
-            DijkstraSearch(start, end, parcelList, 1, checkOnlyUs);
+            DijkstraSearch(start, end, parcelList, searchType, checkOnlyUs);
             var shortestPath = new List<Connection>();
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse(); // whatever if you want the correct order
