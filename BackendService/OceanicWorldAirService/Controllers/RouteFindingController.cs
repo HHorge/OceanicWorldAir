@@ -24,7 +24,7 @@ namespace OceanicWorldAirService.Controllers
         }
 
         [HttpPost("FindRoute")]
-        public BookingResponse FindRoutes(ApiRequestObjectDto request)
+        public List<BookingResponse> FindRoutes(ApiRequestObjectDto request)
         {
             return _routeFindingService.FindRoutes(request.Parcels, request.StartCityId, request.DestinationCityId);
         }
