@@ -81,11 +81,11 @@ namespace OceanicWorldAirService.Services
 
         private int GetDimensionCategory(Parcel parcel)
         {
-            if (parcel.Dimensions.depth < 25 && parcel.Dimensions.width < 25 && parcel.Dimensions.height < 25)
+            if (parcel.Dimensions.depth < 25 || parcel.Dimensions.width < 25 || parcel.Dimensions.height < 25)
             {
                 return 1;
             }
-            else if (parcel.Dimensions.depth < 40 && parcel.Dimensions.width < 40 && parcel.Dimensions.height < 40)
+            else if (parcel.Dimensions.depth < 40 || parcel.Dimensions.width < 40 || parcel.Dimensions.height < 40)
             {
                 return 2;
             }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using OceanicWorldAirService.Context.DbModels;
 using OceanicWorldAirService.Models;
 using OceanicWorldAirService.Repositories;
 using OceanicWorldAirService.Services;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OceanicWorldAirService.Controllers
 {
@@ -12,32 +14,50 @@ namespace OceanicWorldAirService.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class DbAddTestController : ControllerBase
+    public class DbAddController : ControllerBase
     {
         private readonly IBookingRepository _bookingRepository;
 
-        public DbAddTestController(IBookingRepository bookingRepository)
+        public DbAddController(IBookingRepository bookingRepository)
         {
             _bookingRepository = bookingRepository;
         }
 
-        [HttpPost(Name = "CreateBooking")]
-        public Context.DbModels.Booking CreateBooking(Context.DbModels.Booking inputBody)
+        [HttpPost("CreateBooking")]
+        public Booking CreateBooking(BookingResponse inputBody)
         {
-            Models.Route route = new Models.Route()
+            if (inputBody == null)
             {
-                Id = 324,
-                Start = new Node(1, "testName"),
-                End = new Node(4, "testend"),
-                Connections = new List<Connection>()
-                {
-                    new Connection(new Node(3,""),new Node(5,""), new Company()),
-                }
+                return new Booking();
+            }
+
+            string jsonParcelList = "";
+
+            foreach(var parcel in inputBody.Parcels)
+            {
+                parcel.Id = Guid.NewGuid();
+            }
+
+            try
+            {
+                jsonParcelList = JsonSerializer.Serialize(inputBody.Parcels);
+            }
+            catch(Exception ex)
+            {
+                jsonParcelList = ex.ToString();
+            }
+
+            var createBookingBody = new Booking()
+            {
+                Id = inputBody.Id,
+                StartDestination = inputBody.StartDestination,
+                EndDestination = inputBody.EndDestination,
+                Price = inputBody.Price,
+                Time = inputBody.Time,
+                JsonParcelsList = jsonParcelList,
             };
 
-            inputBody.JsonRoute = JsonSerializer.Serialize(route);
-
-            var result = _bookingRepository.CreateBooking(inputBody);
+            var result = _bookingRepository.CreateBooking(createBookingBody);
             return result;
         }
     }
