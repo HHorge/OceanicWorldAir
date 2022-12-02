@@ -33,6 +33,11 @@ namespace OceanicWorldAirService.Controllers
 
             string jsonParcelList = "";
 
+            foreach(var parcel in inputBody.Parcels)
+            {
+                parcel.Id = Guid.NewGuid();
+            }
+
             try
             {
                 jsonParcelList = JsonSerializer.Serialize(inputBody.Parcels);
