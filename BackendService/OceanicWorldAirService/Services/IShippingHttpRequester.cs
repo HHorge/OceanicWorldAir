@@ -7,5 +7,6 @@ namespace OceanicWorldAirService.Services
     public interface IShippingHttpRequester
     {
         public Task<Costs> EastIndiaTradingRequest(List<Parcel> parcelList, int startCityId, int destinationCityId);
+        public Task<Costs> TelstarLogisticsRequest(List<Parcel> parcelList, int startCityId, int destinationCityId);
     }
 }
